@@ -1,0 +1,61 @@
+---
+title: "Learning Quarto"
+author: "Zakhar Krekhno"
+toc: true
+number-sections: true
+format: 
+  html:
+    code-fold: true
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| label: setup
+#| echo: true
+#| output: false
+library(tidyverse)
+library(ggsci)
+theme_set(theme_bw(base_size = 14))
+```
+
+We can reference figures easily now. See the @fig-test below. 
+
+```{r}
+#| echo: true
+#| label: fig-test
+#| fig-cap: "Random viz of mpg"
+#| fig-width: 6
+#| fig-height: 8
+ggplot(mpg, aes(x=displ,y=cty, color = drv)) +
+  geom_point() +
+  scale_color_npg() + theme(axis.text.x = element_text(angle = 45, hjust = 0.9)) +
+  facet_wrap(~class)
+```
+
+See @fig-panel for the panel of figures. In particular, @fig-panel-1 is a scatter plot
+
+```{r}
+#| label: fig-panel
+#| fig-cap: "Many figures"
+#| fig-subcap: 
+#| - "Scatter plot"
+#| - "Linear plot"
+#| layout-ncol: 2
+ggplot(mpg, aes(x=displ,y=cyl, color = trans)) +
+  geom_point() + 
+  scale_color_npg()
+ggplot(mpg, aes(x=displ,y=cty, color = as_factor(cyl))) +
+  geom_point() +
+  geom_smooth(method = "lm") + 
+  scale_color_npg()
+```
+There are `r nrow(mpg)` observations in `mpg` dataset.
+
+
